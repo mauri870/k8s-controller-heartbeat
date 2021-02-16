@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-heartbeat
+  labels:
+    app: k8s-heartbeat
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: k8s-heartbeat
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-heartbeat 
+  labels:
+    app: k8s-heartbeat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-heartbeat
+  template:
+    metadata:
+      labels:
+        app: k8s-heartbeat
+    spec:
+      containers:
+      - name: heartbeat
+        image: mauri870/k8s-heartbeat
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 50m
+            memory: 25Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        env:
+          - name: LOG_LEVEL
+            value: "INFO"
+          - name: RATE_LIMIT
+            value: "3600-H"
+          - name: PORT
+            value: "8080"
+          - name: AUTH_TOKEN_BASIC
+            value: "dGVzdDp0ZXN0"
+        ports:
+        - containerPort: 8080
