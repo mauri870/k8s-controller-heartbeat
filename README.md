@@ -41,9 +41,21 @@ The server has the following endpoints:
 ## Environment variables
 
 ```bash
-PORT=8080 # the server's port
-LOG_LEVEL=INFO 	# The log level for messages.
-RATE_LIMIT=3600-H # Rate limiting, 3600 requests per hour
-AUTH_TOKEN_BASIC= # Auth token for authorization, either send by the client via a "token" query param or Authorization Basic header. The server just compares the values, you may use base64 encoding if you wish and usinng HTTPS is highly recommended.
-KUBECONFIG # Path to the kubernetes cluster config file, leave empty for in-cluster autodiscovery
+# the server's port
+PORT=8080
+
+# The log level for messages.
+LOG_LEVEL=INFO
+
+# Rate limiting, 3600 requests per hour
+# Check https://github.com/ulule/limiter to see the limit format
+RATE_LIMIT=3600-H
+
+# Auth token for authorization, either send by the client via a "token" query param 
+# or Authorization Basic header. The server just compares the values, you may use 
+# base64 encoding if you wish and using HTTPS is highly recommended.
+AUTH_TOKEN_BASIC= 
+
+# Path to the kubernetes cluster config file, leave empty for in-cluster autodiscovery.
+KUBECONFIG 
 ```
