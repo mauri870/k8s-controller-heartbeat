@@ -15,12 +15,19 @@ If the deployment, or actually, the pods running for that deployment are degrade
 
 > Please ensure that your deployments have a livenessProbe set up so the monitoring will be more precise.
 
-A kubernetes deployment configuration to deploy this project can be found in the config directory.
+A kubernetes config example to deploy this project can be found in the config directory. Remember to change your authorization token before using this in production.
 
-You can use an ingress or cluster ip to expose the deployment, after that you should be able to query the status with an HTTP GET or HEAD request:
+You can use an ingress or service to expose the deployment, for example in minikube you can use:
 
 ```bash
-curl -XHEAD https://status.example.com/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0
+kubectl expose deployment k8s-heartbeat --type=NodePort --port=8080
+minikube service k8s-heartbeat
+```
+
+After that you should be able to query the status with an HTTP GET or HEAD request:
+
+```bash
+curl -XHEAD http://IP:PORT/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0
 ```
 
 In order to prevent malicious actors from disclosing private data about your cluster a Basic auth and rate limiting middleware are implemented, please check the Environment variables available below.
