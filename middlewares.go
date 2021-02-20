@@ -15,12 +15,11 @@ func authBasicMiddleware(token string) func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 			auth := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 
-			if len(auth) != 2 || auth[0] != "Basic" {
-				http.Error(rw, ErrAuthorizationFailed, http.StatusUnauthorized)
-				return
+			var reqToken string
+			if len(auth) == 2 && auth[0] == "Basic" {
+				reqToken = auth[1]
 			}
 
-			reqToken := auth[1]
 			if reqToken == "" {
 				// fallback to the query param "token" field
 				reqToken = r.URL.Query().Get("token")
