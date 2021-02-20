@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: heartbeat
-        image: mauri870/k8s-heartbeat
+        image: mauri0870/k8s-heartbeat
         imagePullPolicy: Always
         resources:
           requests:
