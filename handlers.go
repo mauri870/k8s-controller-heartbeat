@@ -53,7 +53,7 @@ func (app *AppHandler) componentHandler() http.Handler {
 		err := health.HealthCheck(context.Background(), component)
 		if err != nil {
 			log.Errorf("Health check failed for %s: %s", component, err)
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 	})
