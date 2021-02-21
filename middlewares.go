@@ -36,6 +36,8 @@ func authBasicMiddleware(token string) func(h http.Handler) http.Handler {
 				rw.WriteHeader(http.StatusForbidden)
 				return
 			}
+
+			next.ServeHTTP(rw, r)
 		})
 	}
 }
