@@ -5,7 +5,7 @@ A HTTP api that exposes monitoring endpoints to check the availability of deploy
 ## Why
 
 This project was designed out of the need to actively monitor deployments running in a kubernetes cluster. 
-A remote status page or third-party application can then retrieve the status by pooling the endpoint related to a specific deployment, as we have done with the NixStats status page for example. 
+A remote status page or third-party application can then retrieve the status by polling the endpoint related to a specific deployment, as we have done with the NixStats status page for example. 
 
 This type of active monitoring does not require that you - the developer or cluster administrator - have to implement this logic manually sometimes having to develop some weird email integration or provide the storage to keep track of which service is down and whatnot.
 
