@@ -5,7 +5,7 @@ A HTTP api that exposes monitoring endpoints to check the availability of deploy
 ## Why
 
 This project was designed out of the need to actively monitor deployments running in a kubernetes cluster. 
-A remote status page or third-party application can then retrieve the status by polling the endpoint related to a specific deployment, as we have done with the NixStats status page for example. 
+A remote status page or third-party application can then retrieve the status by polling the endpoint related to a specific deployment, as I have done with the NixStats status page for example. 
 
 This type of active monitoring does not require that you - the developer or cluster administrator - have to implement this logic manually sometimes having to develop some weird email integration or provide the storage to keep track of which service is down and whatnot.
 
@@ -13,7 +13,7 @@ If the deployment, or actually, the pods running for that deployment are degrade
 
 ## Usage
 
-> Please ensure that your deployments have a livenessProbe set up so the monitoring will be more precise.
+> Please ensure that your deployments have a livenessProbe with the appropriate checks
 
 A kubernetes config example to deploy this project can be found in the config directory. Remember to change your authorization token before using this in production.
 
@@ -30,7 +30,7 @@ After that you should be able to query the status with an HTTP GET or HEAD reque
 curl -XHEAD http://IP:PORT/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0
 ```
 
-In order to prevent malicious actors from disclosing private data about your cluster a Basic auth and rate limiting middleware are implemented, please check the Environment variables available below.
+In order to prevent malicious actors from disclosing private data about your cluster a Basic auth and rate limiting middleware are implemented, please check the Environment variables available.
 
 ## Endpoints
 
