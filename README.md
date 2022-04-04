@@ -15,13 +15,23 @@ If the deployment, or actually, the pods running for that deployment are degrade
 
 > Please ensure that your deployments have a livenessProbe with the appropriate checks
 
+First of all we need permission to list and get events, pods and deployments. For that create the required clusterrole and clusterrolebinding:
+
+```bash
+kubectl create -f config/clusterrole.yaml
+```
+
 A kubernetes config example to deploy this project can be found in the config directory. Remember to change your authorization token before using this in production.
 
-You can use an ingress or service to expose the deployment, for example in minikube you can use:
+```bash
+kubectl create -f config/k8s-hearbeat.yaml
+```
+
+You can use an ingress or service to expose the deployment. In minikube run the following commands:
 
 ```bash
 kubectl expose deployment k8s-heartbeat --type=NodePort --port=8080
-minikube service k8s-heartbeat
+minikube service k8s-heartbeat --url
 ```
 
 After that you should be able to query the status with an HTTP GET or HEAD request:
@@ -38,11 +48,11 @@ The server has the following endpoints:
 
 ### GET or HEAD /health - The server's own health checking
 
-`curl http://localhost:8080/healthz`
+`curl http://IP:PORT/healthz`
 
 ### GET or HEAD /api/healthz/{namespace}/deployment/{component}?token=xxx - Health check for a given deployment
 
-`curl http://localhost:8080/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0`
+`curl http://IP:PORT/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0`
 
 
 ## Environment variables
