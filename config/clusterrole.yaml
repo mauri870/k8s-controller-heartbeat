@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8s-heartbeat-clusterrole
+rules:
+  - apiGroups:
+      - "*"
+    resources:
+      - pods
+      - events
+      - deployments
+    verbs:
+      - list
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-heartbeat-clusterrolebinding
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: k8s-heartbeat-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+
