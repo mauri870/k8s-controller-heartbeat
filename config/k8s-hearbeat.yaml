@@ -30,7 +30,7 @@ spec:
           periodSeconds: 5
         env:
           - name: LOG_LEVEL
-            value: "INFO"
+            value: "ERROR"
           - name: RATE_LIMIT
             value: "3600-H"
           - name: PORT
