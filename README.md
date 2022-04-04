@@ -37,10 +37,10 @@ kubectl expose deployment k8s-heartbeat --type=NodePort --port=8080
 minikube service k8s-heartbeat --url
 ```
 
-After that you should be able to query the status with an HTTP GET or HEAD request:
+After that you should be able to query the status with an HTTP GET or HEAD request. Let's try to get the status of the project we just deployed:
 
 ```bash
-curl -XHEAD http://IP:PORT/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0
+curl -XHEAD http://IP:PORT/api/healthz/default/deployment/k8s-heartbeat?token=dGVzdDp0ZXN0
 ```
 
 In order to prevent malicious actors from disclosing private data about your cluster a Basic auth and rate limiting middleware are implemented, please check the Environment variables available.
@@ -55,7 +55,7 @@ The server has the following endpoints:
 
 ### GET or HEAD /api/healthz/{namespace}/deployment/{component}?token=xxx - Health check for a given deployment
 
-`curl http://IP:PORT/api/healthz/kube-system/deployment/kube-proxy?token=dGVzdDp0ZXN0`
+`curl http://IP:PORT/api/healthz/default/deployment/k8s-heartbeat?token=dGVzdDp0ZXN0`
 
 
 ## Environment variables
