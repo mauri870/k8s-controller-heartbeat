@@ -2,6 +2,9 @@
 
 A HTTP api that exposes monitoring endpoints to check the availability of deployments running in a kubernetes cluster.
 
+![Alt text](images/nixstats.png "Nixstats Dashboard")
+> Nixstats Dashboard reflecting the status of deployments
+
 ## Why
 
 This project was designed out of the need to actively monitor deployments running in a kubernetes cluster. 
