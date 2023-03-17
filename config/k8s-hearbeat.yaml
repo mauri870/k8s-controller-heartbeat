@@ -32,7 +32,7 @@ spec:
           - name: LOG_LEVEL
             value: "ERROR"
           - name: RATE_LIMIT
-            value: "3600-H"
+            value: "3600h"
           - name: PORT
             value: "8080"
           - name: AUTH_TOKEN_BASIC

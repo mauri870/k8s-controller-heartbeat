@@ -3,6 +3,7 @@ module github.com/mauri870/k8s-heartbeat
 go 1.15
 
 require (
+	github.com/caarlos0/env/v7 v7.1.0 // indirect
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/sirupsen/logrus v1.7.0

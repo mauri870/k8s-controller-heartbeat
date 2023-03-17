@@ -1,6 +1,6 @@
-# k8s-heartbeat
+# k8s-controller-heartbeat
 
-A HTTP api that exposes monitoring endpoints to check the availability of deployments running in a kubernetes cluster.
+A Kubernetes Controller that exposes an HTTP API to check the availability of deployments running in a kubernetes cluster.
 
 ![Alt text](images/nixstats.png "Nixstats Dashboard")
 > Nixstats Dashboard reflecting the status of deployments
@@ -69,7 +69,7 @@ LOG_LEVEL=INFO
 
 # Rate limiting, 3600 requests per hour
 # Check https://github.com/ulule/limiter to see the limit format
-RATE_LIMIT=3600-H
+RATE_LIMIT=3600h
 
 # Auth token for authorization, either send by the client via a "token" query param 
 # or Authorization Basic header. The server just compares the values, you may use 

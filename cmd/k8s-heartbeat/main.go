@@ -1,9 +1,10 @@
 package main
 
 import (
-	"os"
+	"fmt"
 
-	"github.com/mauri870/k8s-heartbeat"
+	"github.com/caarlos0/env/v7"
+	k8sheartbeat "github.com/mauri870/k8s-heartbeat"
 	log "github.com/sirupsen/logrus"
 	limiter "github.com/ulule/limiter/v3"
 
@@ -14,24 +15,27 @@ import (
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 )
 
-var (
-	kubeConfig     = getEnv("KUBECONFIG", "")
-	logLevel       = getEnv("LOG_LEVEL", "INFO")
-	port           = getEnv("PORT", "8080")
-	rateLimit      = getEnv("RATE_LIMIT", "3600-H")
-	authTokenBasic = getEnv("AUTH_TOKEN_BASIC", "xxx")
-)
+type config struct {
+	KubeConfig        string `env:"KUBECONFIG" envExpand:"true"`
+	LogLevel          string `env:"LOG_LEVEL" envDefault:"INFO"`
+	Port              int    `env:"PORT" envDefault:"8080"`
+	RateLimitDuration string `env:"RATE_LIMIT" envDefault:"3600h"`
+	AuthTokenBasic    string `env:"AUTH_TOKEN_BASIC" envDefault:"xxx"`
+}
 
-func init() {
-	lvl, err := log.ParseLevel(logLevel)
+func main() {
+	envCfg := config{}
+	if err := env.Parse(&envCfg); err != nil {
+		log.Fatal(err)
+	}
+
+	lvl, err := log.ParseLevel(envCfg.LogLevel)
 	if err != nil {
 		lvl = log.InfoLevel
 	}
 	log.SetLevel(lvl)
-}
 
-func main() {
-	config, err := clientcmd.BuildConfigFromFlags("", kubeConfig)
+	config, err := clientcmd.BuildConfigFromFlags("", envCfg.KubeConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,22 +45,13 @@ func main() {
 	}
 
 	// rate limiting
-	rate, err := limiter.NewRateFromFormatted(rateLimit)
+	rate, err := limiter.NewRateFromFormatted(envCfg.RateLimitDuration)
 	if err != err {
 		log.Fatal(err)
 	}
 	rateLimiter := limiter.New(memory.NewStore(), rate)
 
-	app := k8sheartbeat.NewAppHandler(clientset, authTokenBasic, rateLimiter)
-	log.Infof("Listening on %s", port)
-	log.Fatal(app.Serve(":" + port))
-}
-
-// getEnv gets an environment variable or a default
-func getEnv(key, fallback string) string {
-	value, exists := os.LookupEnv(key)
-	if !exists {
-		value = fallback
-	}
-	return value
+	app := k8sheartbeat.NewAppHandler(clientset, envCfg.AuthTokenBasic, rateLimiter)
+	log.Infof("Listening on %s", envCfg.Port)
+	log.Fatal(app.Serve(fmt.Sprintf(":%d", envCfg.Port)))
 }

@@ -1,4 +1,4 @@
-FROM golang:1.15
+FROM golang:1.20
 WORKDIR /go/src/app
 COPY . .
 RUN CGO_ENABLED=0 go install -a -ldflags '-extldflags "-static"' ./cmd/k8s-heartbeat
