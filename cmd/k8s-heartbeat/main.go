@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/caarlos0/env/v7"
 	k8sheartbeat "github.com/mauri870/k8s-heartbeat"
@@ -16,11 +17,11 @@ import (
 )
 
 type config struct {
-	KubeConfig        string `env:"KUBECONFIG" envExpand:"true"`
-	LogLevel          string `env:"LOG_LEVEL" envDefault:"INFO"`
-	Port              int    `env:"PORT" envDefault:"8080"`
-	RateLimitDuration string `env:"RATE_LIMIT" envDefault:"3600h"`
-	AuthTokenBasic    string `env:"AUTH_TOKEN_BASIC" envDefault:"xxx"`
+	KubeConfig        string        `env:"KUBECONFIG" envExpand:"true"`
+	LogLevel          string        `env:"LOG_LEVEL" envDefault:"INFO"`
+	Port              int           `env:"PORT" envDefault:"8080"`
+	RateLimitDuration time.Duration `env:"RATE_LIMIT" envDefault:"3600h"`
+	AuthTokenBasic    string        `env:"AUTH_TOKEN_BASIC" envDefault:"xxx"`
 }
 
 func main() {
