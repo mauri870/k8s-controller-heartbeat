@@ -3,12 +3,13 @@
 A Kubernetes Controller that exposes an HTTP API to check the availability of deployments running in a kubernetes cluster.
 
 ![Alt text](images/nixstats.png "Nixstats Dashboard")
+
 > Nixstats Dashboard reflecting the status of deployments
 
 ## Why
 
-This project was designed out of the need to actively monitor deployments running in a kubernetes cluster. 
-A remote status page or third-party application can then retrieve the status by polling the endpoint related to a specific deployment, as I have done with the NixStats status page for example. 
+This project was designed out of the need to actively monitor deployments running in a kubernetes cluster.
+A remote status page or third-party application can then retrieve the status by polling the endpoint related to a specific deployment, as I have done with the NixStats status page for example.
 
 This type of active monitoring does not require that you - the developer or cluster administrator - have to implement this logic manually sometimes having to develop some weird email integration or provide the storage to keep track of which service is down and whatnot.
 
@@ -57,7 +58,6 @@ The server has the following endpoints:
 
 `curl http://IP:PORT/api/healthz/default/deployment/k8s-heartbeat?token=dGVzdDp0ZXN0`
 
-
 ## Environment variables
 
 ```bash
@@ -68,14 +68,14 @@ PORT=8080
 LOG_LEVEL=INFO
 
 # Rate limiting, 3600 requests per hour
-# Check https://github.com/ulule/limiter to see the limit format
-RATE_LIMIT=3600h
+RATE_LIMIT=3600
+RATE_LIMIT_PERIOD=1h
 
-# Auth token for authorization, either send by the client via a "token" query param 
-# or Authorization Basic header. The server just compares the values, you may use 
+# Auth token for authorization, either send by the client via a "token" query param
+# or Authorization Basic header. The server just compares the values, you may use
 # base64 encoding if you wish and using HTTPS is highly recommended.
-AUTH_TOKEN_BASIC= 
+AUTH_TOKEN_BASIC=
 
 # Path to the kubernetes cluster config file, leave empty for in-cluster autodiscovery.
-KUBECONFIG 
+KUBECONFIG
 ```

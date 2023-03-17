@@ -20,7 +20,8 @@ type config struct {
 	KubeConfig        string        `env:"KUBECONFIG" envExpand:"true"`
 	LogLevel          string        `env:"LOG_LEVEL" envDefault:"INFO"`
 	Port              int           `env:"PORT" envDefault:"8080"`
-	RateLimitDuration time.Duration `env:"RATE_LIMIT" envDefault:"3600h"`
+	RateLimitDuration time.Duration `env:"RATE_LIMIT_PERIOD" envDefault:"1h"`
+	RateLimit         int           `env:"RATE_LIMIT" envDefault:"3600"`
 	AuthTokenBasic    string        `env:"AUTH_TOKEN_BASIC" envDefault:"xxx"`
 }
 
@@ -46,9 +47,9 @@ func main() {
 	}
 
 	// rate limiting
-	rate, err := limiter.NewRateFromFormatted(envCfg.RateLimitDuration)
-	if err != err {
-		log.Fatal(err)
+	rate := limiter.Rate{
+		Period: envCfg.RateLimitDuration,
+		Limit:  int64(envCfg.RateLimit),
 	}
 	rateLimiter := limiter.New(memory.NewStore(), rate)
 

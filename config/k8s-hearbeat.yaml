@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-heartbeat 
+  name: k8s-heartbeat
   labels:
     app: k8s-heartbeat
 spec:
@@ -15,27 +15,29 @@ spec:
         app: k8s-heartbeat
     spec:
       containers:
-      - name: heartbeat
-        image: mauri0870/k8s-heartbeat
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: 50m
-            memory: 25Mi
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        env:
-          - name: LOG_LEVEL
-            value: "ERROR"
-          - name: RATE_LIMIT
-            value: "3600h"
-          - name: PORT
-            value: "8080"
-          - name: AUTH_TOKEN_BASIC
-            value: "dGVzdDp0ZXN0"
-        ports:
-        - containerPort: 8080
+        - name: heartbeat
+          image: mauri0870/k8s-heartbeat
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 25Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          env:
+            - name: LOG_LEVEL
+              value: "ERROR"
+            - name: RATE_LIMIT
+              value: "3600"
+            - name: RATE_LIMIT_PERIOD
+              value: "1h"
+            - name: PORT
+              value: "8080"
+            - name: AUTH_TOKEN_BASIC
+              value: "dGVzdDp0ZXN0"
+          ports:
+            - containerPort: 8080
