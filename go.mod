@@ -1,4 +1,4 @@
-module github.com/mauri870/k8s-heartbeat
+module github.com/mauri870/k8s-controller-heartbeat
 
 go 1.15
 

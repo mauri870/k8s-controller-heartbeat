@@ -41,7 +41,7 @@ minikube service k8s-heartbeat --url
 After that you should be able to query the status with an HTTP GET or HEAD request. Let's try to get the status of the project we just deployed:
 
 ```bash
-curl -XHEAD http://IP:PORT/api/healthz/default/deployment/k8s-heartbeat?token=dGVzdDp0ZXN0
+curl --head http://IP:PORT/api/healthz/default/deployment/k8s-heartbeat?token=dGVzdDp0ZXN0
 ```
 
 In order to prevent malicious actors from disclosing private data about your cluster a Basic auth and rate limiting middleware are implemented, please check the Environment variables available.
@@ -72,8 +72,8 @@ RATE_LIMIT=3600
 RATE_LIMIT_PERIOD=1h
 
 # Auth token for authorization, either send by the client via a "token" query param
-# or Authorization Basic header. The server just compares the values, you may use
-# base64 encoding if you wish and using HTTPS is highly recommended.
+# or Authorization Basic header. The server just compares the values, you may use secrets for this
+# and using HTTPS is highly recommended.
 AUTH_TOKEN_BASIC=
 
 # Path to the kubernetes cluster config file, leave empty for in-cluster autodiscovery.

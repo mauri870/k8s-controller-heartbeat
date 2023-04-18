@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v7"
-	k8sheartbeat "github.com/mauri870/k8s-heartbeat"
+	k8sheartbeat "github.com/mauri870/k8s-controller-heartbeat"
 	log "github.com/sirupsen/logrus"
 	limiter "github.com/ulule/limiter/v3"
 
@@ -54,6 +54,6 @@ func main() {
 	rateLimiter := limiter.New(memory.NewStore(), rate)
 
 	app := k8sheartbeat.NewAppHandler(clientset, envCfg.AuthTokenBasic, rateLimiter)
-	log.Infof("Listening on %s", envCfg.Port)
+	log.Infof("Listening on %d", envCfg.Port)
 	log.Fatal(app.Serve(fmt.Sprintf(":%d", envCfg.Port)))
 }
